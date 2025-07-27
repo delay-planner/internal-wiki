@@ -71,6 +71,8 @@ With the config file above, that means the crazyflies must be oriented like so:
     -------                      -------
 ```
 
+You can tell which crazyflie is which based on the number written on tape on the bottom of it. For example, under cf1, there is a tape with the number 1 and it corresponds to URI `radio://0/80/2M/E7E7E7E701`.
+
 The ends of the table is about 1.0 units (technically a little more but that's okay). Place the crazyflies on opposite ends of the table and make sure it is flat. Orient the crazyflies with the red and black battery wire facing the -x direction (away from the machines).
 
 Finally, turn on the drones. Firstly, make sure NO CRAZYFLIE PROGRAM IS CURRENTLY RUNNING. Then press the button power button for both drones (order and timing doesn't really matter). The power button is what's labelled the "reset button" below.
