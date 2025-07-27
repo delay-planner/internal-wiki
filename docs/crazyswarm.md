@@ -2,19 +2,19 @@
 
 ## High-Level Steps
 
-(1) Turn on the VICON
-(2) Connect to VICON on the machine
-(3) Position and turn on drones
-(4) Run program (a few times if needed)
-(5) Retrieve drones and charge (if needed)
+1. Turn on the VICON
+2. Connect to VICON on the machine
+3. Position and turn on drones
+4. Run program (a few times if needed)
+5. Retrieve drones and charge (if needed)
 
-### (1) Turn on VICON
+## (1) Turn on VICON
 
 The best guide on how to turn on the VICON is [here](https://gitlab.com/mit-acl/fsw/mocap/-/wikis/VICON:-Creating-Rigid-Bodies) (https://gitlab.com/mit-acl/fsw/mocap/-/wikis/VICON:-Creating-Rigid-Bodies). JUST FOLLOW STEPS 1-4 since we will be using the single-marker method. Make sure that the setup is live and looks a little like below:
 
 ![Live](https://gitlab.com/mit-acl/fsw/mocap/-/wikis/assets/green_camera.png)
 
-### (2) Connect to VICON on the machine
+## (2) Connect to VICON on the machine
 
 To allow Crazyswarm2 to access the information from VICON, run this in a terminal on the highbay machine:
 
@@ -24,7 +24,7 @@ ros2 launch mocap vicon.launch.xml
 
 It should successfully connect to the highbay machine and you should get latency readings. Make sure to keep this running in the background when running programs!
 
-### (3) Position and turn on drones
+## (3) Position and turn on drones
 
 Check out `crazyswarm2/crazyflie/config/crazyflies.yaml`. The top of the file should look something like this:
 
@@ -81,17 +81,17 @@ The crazyflie will automatically test all its motors by gently spinning them. If
 
 Finally, close the velcro around the net so the crazyflies don't crash without the net!
 
-### (4) Run program (a few times if needed)
+## (4) Run program (a few times if needed)
 
 Execute the program. You may need to execute it a few times before it successfully connects (if it doesn't do another after 1.5 minutes, then it's almost certainly not connected so just rerun it!). If it fails a ton of times or keeps on getting stuck at some part, restart the crazyflie.
 
 Here's a small compilation of errors I've run into and actions:
 
 | Error | Action |
-------------------
+|-------|--------|
 | Stuck on `Requesting memories...` | Restart the Crazyflie |
 
-### (5) Retrieve drones and charge (if needed)
+## (5) Retrieve drones and charge (if needed)
 
 After the crazyflies do its thing, you'll need to retrieve them! I go under the net and try to grab the crazyflies out of one of the many holes in it. 
 
