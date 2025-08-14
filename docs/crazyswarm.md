@@ -5,7 +5,7 @@
 1. Turn on the VICON (just flip the switch and wait for it to turn on!)
 2. Connect to VICON on the machine (run `ros2 launch mocap vicon.launch.xml`)
 3. Position and turn on drones and plug in the Crazyradio
-4. Run program (a few times if needed)
+4. [Run](https://delay-planner.github.io/internal-wiki/execute/) program (a few times if needed)
 5. Retrieve drones and charge (if needed)
 
 ## (1) Turn on VICON
