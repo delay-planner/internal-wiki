@@ -93,7 +93,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#3-position-and-turn-on-drones" class="nav-link">(3) Position and turn on drones</a>
+            <li class="nav-item" data-bs-level="2"><a href="#3-position-and-turn-on-drones-and-plug-in-the-crazyradio" class="nav-link">(3) Position and turn on drones and plug in the Crazyradio</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -119,21 +119,22 @@
 <h1 id="crazyswarm2-setup-in-highbay">Crazyswarm2 Setup in Highbay</h1>
 <h2 id="high-level-steps">High-Level Steps</h2>
 <ol>
-<li>Turn on the VICON</li>
-<li>Connect to VICON on the machine</li>
-<li>Position and turn on drones</li>
+<li>Turn on the VICON (just flip the switch and wait for it to turn on!)</li>
+<li>Connect to VICON on the machine (run <code>ros2 launch mocap vicon.launch.xml</code>)</li>
+<li>Position and turn on drones and plug in the Crazyradio</li>
 <li>Run program (a few times if needed)</li>
 <li>Retrieve drones and charge (if needed)</li>
 </ol>
 <h2 id="1-turn-on-vicon">(1) Turn on VICON</h2>
-<p>The best guide on how to turn on the VICON is <a href="https://gitlab.com/mit-acl/fsw/mocap/-/wikis/VICON:-Creating-Rigid-Bodies">here</a> (https://gitlab.com/mit-acl/fsw/mocap/-/wikis/VICON:-Creating-Rigid-Bodies). JUST FOLLOW STEPS 1-4 since we will be using the single-marker method. Make sure that the setup is live and looks a little like below:</p>
+<p>The best guide on how to turn on the VICON is <a href="https://gitlab.com/mit-acl/fsw/mocap/-/wikis/VICON:-Creating-Rigid-Bodies">here</a>. JUST FOLLOW STEPS 1-4 since we will be using the single-marker method. Make sure that the setup is live and looks a little like below:</p>
 <p><img alt="Live" src="https://gitlab.com/mit-acl/fsw/mocap/-/wikis/assets/green_camera.png" /></p>
 <h2 id="2-connect-to-vicon-on-the-machine">(2) Connect to VICON on the machine</h2>
 <p>To allow Crazyswarm2 to access the information from VICON, run this in a terminal on the highbay machine:</p>
 <pre><code>ros2 launch mocap vicon.launch.xml
 </code></pre>
 <p>It should successfully connect to the highbay machine and you should get latency readings. Make sure to keep this running in the background when running programs!</p>
-<h2 id="3-position-and-turn-on-drones">(3) Position and turn on drones</h2>
+<h2 id="3-position-and-turn-on-drones-and-plug-in-the-crazyradio">(3) Position and turn on drones and plug in the Crazyradio</h2>
+<p>Plug in the Crazyradio into the desktop! Either Crazyradio works and any port works!</p>
 <p>Check out <code>crazyswarm2/crazyflie/config/crazyflies.yaml</code>. The top of the file should look something like this:</p>
 <pre><code>robots:
   cf1:
@@ -147,8 +148,14 @@
     uri: radio://0/80/2M/E7E7E7E702
     initial_position: [0.0, -1.0, 0.0]
     type: cf21
+
+  cf3:
+    enabled: true
+    uri: radio://0/80/2M/E7E7E7E703
+    initial_position: [0.0, 1.0, 0.0]
+    type: cf21
 </code></pre>
-<p>The axes of the highbay are like so:</p>
+<p>To use less Crazyflies, change <code>enabled: false</code>. The axes of the highbay are like so:</p>
 <pre><code>       -x
         |
         |
@@ -165,9 +172,9 @@
 </code></pre>
 <p>The control room box is where the computers are located (in the far +x, +y side). The below assumes you're at the control room box facing the -x direction.</p>
 <p>With the config file above, that means the crazyflies must be oriented like so:</p>
-<pre><code>    -------                      -------
-    | cf2 |   |-- 1.0 units --|  | cf1 | 
-    -------                      -------
+<pre><code>    -------                      -------                      -------
+    | cf2 |   |-- 1.0 units --|  | cf1 |   |-- 1.0 units --|  | cf3 | 
+    -------                      -------                      -------
 </code></pre>
 <p>You can tell which crazyflie is which based on the number written on tape on the bottom of it. For example, under cf1, there is a tape with the number 1 and it corresponds to URI <code>radio://0/80/2M/E7E7E7E701</code>.</p>
 <p>The ends of the table is about 1.0 units (technically a little more but that's okay). Place the crazyflies on opposite ends of the table and make sure it is flat. Orient the crazyflies with the red and black battery wire facing the -x direction (away from the control room). Alternatively, you can think that you should align the front of the drone with the +x axis (facing towards the control room).</p>
@@ -177,7 +184,8 @@
 <p>The crazyflie will automatically test all its motors by gently spinning them. If this does not happen within a minute of turning on, try again (and make sure no program is currently sending it signals)!</p>
 <p>Finally, close the velcro around the net so the crazyflies don't crash without the net!</p>
 <h2 id="4-run-program-a-few-times-if-needed">(4) Run program (a few times if needed)</h2>
-<p>Execute the program. You may need to execute it a few times before it successfully connects (if it doesn't do another after 1.5 minutes, then it's almost certainly not connected so just rerun it!). If it fails a ton of times or keeps on getting stuck at some part, restart the crazyflie.</p>
+<p>Execute the program. Check out the info <a href="https://delay-planner.github.io/internal-wiki/execute/">here</a>!</p>
+<p>You may need to execute it a few times before it successfully connects (if it doesn't do anything after about a minute, then it's almost certainly not connected so just rerun it!). If it fails a ton of times or keeps on getting stuck at some part, restart the crazyflie.</p>
 <p>Here's a small compilation of errors I've run into and actions:</p>
 <table>
 <thead>
@@ -189,7 +197,7 @@
 <tbody>
 <tr>
 <td>Stuck on <code>Requesting memories...</code></td>
-<td>Restart the Crazyflie</td>
+<td>Unplug and Replug the Crazyradio or Restart the Crazyflie</td>
 </tr>
 </tbody>
 </table>
@@ -214,6 +222,11 @@
               ----------------
               | Control Room |
               ----------------
+</code></pre>
+<p>Make the front of the drones facing +x. Also recall the position of the crazyflies (doesn't need to exactly 1.0 but roughly, about a table apart):</p>
+<pre><code>    -------                      -------                      -------
+    | cf2 |   |-- 1.0 units --|  | cf1 |   |-- 1.0 units --|  | cf3 | 
+    -------                      -------                      -------
 </code></pre></div>
             </div>
         </div>
