@@ -58,32 +58,46 @@ Upload B:                                                                |------
 
 - First Demo:
   - No delay, Expected behavior: A starts and finishes, A communicates that it has finished and then B starts its mission and finishes
+  - [x] Sim
+  - [ ] Hardware
 - Second Demo:
   - Non-zero delay,
   - Cases are defined based on when B receives information about A's acknowledgement. Lets assume A finishes at $t_A \in [lb_A, ub_A]
     - Case 1:  B receives A's ack within t_A^B \in [t_A + dl_A, ub_A]
       - Expected Behavior: B will start its mission at t_A^B
+      - [x] Sim
+      - [ ] Hardware
     - Case 2:  B receives A's ack within t_A^B \in [ub_A, t_A + du_A]
       - Expected Behavior: B will start its mission at ub_A
-  - Expected behavior: Look at the timeline above
+      - [ ] Sim
+      - [ ] Hardware
 - Third Demo:
   - Non-zero large delays,
   - Follow case 1 from previous demo,
-  - Expected behavior: Will finish the overall mission faster     
+  - Expected behavior: Will finish the overall mission faster
+  - [x] Sim
+  - [ ] Hardware
 
 ## Kirk
 
 - First Demo:
-  - No delay, Expected behavior: Same 
+  - No delay, Expected behavior: Same
+  - [ ] Sim
+  - [ ] Hardware
 - Second Demo:
   - Non-zero delay,
   - Cases are defined based on when B receives information about A's acknowledgement. Lets assume A finishes at $t_A \in [lb_A, ub_A]
     - Case 1:  B receives A's ack within t_A^B \in [t_A + dl_A, ub_A]
-      - Expected Behavior: B will start its mission at t_A^B
+      - Expected Behavior: mission will finish later than delay-kirk
+      - [ ] Sim
+      - [ ] Hardware
     - Case 2:  B receives A's ack within t_A^B \in [ub_A, t_A + du_A]
-      - Expected Behavior: B will start its mission at ub_A
-  - Expected behavior: In case 1, the mission will finish later than delay-kirk. In case 2, the planner will crash leading to failure of the overall mission
+      - Expected Behavior: planner will crash leading to failure of the overall mission
+      - [ ] Sim
+      - [ ] Hardware
 - Third Demo:
   - Non-zero large delays,
   - Follow case 1 from previous demo,
   - Expected behavior: Mission will finish much later than the corresponding delay-kirk demonstration
+  - [ ] Sim
+  - [ ] Hardware
