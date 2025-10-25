@@ -15,8 +15,11 @@
 - Current setup is scalable to more teams and more drones within teams and more missions as well.
 
 Mission A: Time Bound - [lb_A, ub_A], Delay Bound - [dl_A, du_A]
+
 Upload A: Time Bound - [upl_A, upu_A]
+
 Mission B: Time Bound - [lb_B, ub_B], Delay Bound - [dl_B, du_B]
+
 Upload B: Time Bound - [upl_B, upu_B]
 
 - Missions are contingent events i.e they need to be acknowledged.
@@ -24,6 +27,7 @@ Upload B: Time Bound - [upl_B, upu_B]
 - Let $t_A^B = min(ub_A, t_A + d_A)$ be the time when B receives the unreliable acknowledgement of team A.
 - "xxxxxxx" denotes minimum bound of the communication delay i.e dl_A in this context. 
 
+```
 Timelines:   t=0|---------------------------------------------------------------------------------------------------|t=$\infty$ 
 
 A's perspective:                                    
@@ -43,7 +47,7 @@ Mission B:                                 |-----------------------------|------
                                      $t_A^B + max(0, upl_A-dl_A) + lb_B$ |    $t_A^B + max(0, upl_A-dl_A) + ub_B$
 Upload B:                                                                |-------------------------|
                                                                     $t_B + upl_B$             $t_B + upu_B$
-
+```
 
 ## Objectives of the demos:
 - First Demo: Behavior of Kirk/Delay-Kirk will be similar.
