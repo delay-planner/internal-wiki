@@ -2,7 +2,19 @@
 
 This is a series of commands used on the highbay machines.
 
-## Multi-drone, multi-mission distributed Kirk
+## Run
+
+```
+ros2 launch rbmapf_gzsim integrated_sim_demo.launch.py num_drones:=4 backend:=sim use_hardware:=False
+```
+
+Edit the rmpl passed in
+
+--------------------------------------
+
+## Archive
+
+### Multi-drone, multi-mission distributed Kirk
 
 1. Launch the main crazyswarm launch.py with cflib
 
@@ -32,11 +44,7 @@ podman exec -it 3d2642905d0e /bin/bash
 bash execute_kirk.sh
 ```
 
---------------------------------------
-
-## Archive
-
-Run the Multi-Drone Planner
+### Run the Multi-Drone Planner
 
 ```
 podman start 3d2642905d0e
