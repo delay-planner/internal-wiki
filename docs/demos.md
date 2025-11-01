@@ -69,7 +69,7 @@ Upload B:                                                                |------
       - [ ] Hardware
     - Case 2:  B receives A's ack within t_A^B \in [ub_A, t_A + du_A]
       - Expected Behavior: B will start its mission at ub_A + upl_A
-      - [ ] Sim
+      - [x] Sim
       - [ ] Hardware
 - Third Demo:
   - Non-zero large delays,
