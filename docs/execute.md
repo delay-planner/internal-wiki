@@ -2,17 +2,28 @@
 
 This is a series of commands used on the highbay machines.
 
-## Run
+```
+ros2 launch rbmapf_gzsim group_integrated_sim_demo.launch.py num_drones:=4 team_size:=2 use_hardware:=True
+```
+
+Order:
+```
+| 2 | 4 | 3 | 1 |
+ ----------------
+ | Control Room |
+ ----------------
+```
+
+
+--------------------------------------
+
+## Archive
 
 ```
 ros2 launch rbmapf_gzsim integrated_sim_demo.launch.py num_drones:=4 backend:=sim use_hardware:=False
 ```
 
 Edit the rmpl passed in
-
---------------------------------------
-
-## Archive
 
 ### Multi-drone, multi-mission distributed Kirk
 
