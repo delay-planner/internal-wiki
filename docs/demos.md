@@ -59,7 +59,7 @@ Upload B:                                                                |------
 - First Demo:
   - No delay, Expected behavior: A starts and finishes, A communicates that it has finished and then B starts its mission and finishes
   - [x] Sim
-  - [ ] Hardware
+  - [x] Hardware
 - Second Demo:
   - Non-zero delay,
   - Cases are defined based on when B receives information about A's acknowledgement. Lets assume A finishes at $t_A \in [lb_A, ub_A]
