@@ -2,6 +2,12 @@
 
 This is a series of commands used on the highbay machines.
 
+One time:
+```
+export PYTHONPATH=/home/mers/Developer/cc-sorb-rev:$PYTHONPATH
+```
+
+Regularly:
 ```
 ros2 launch rbmapf_gzsim group_integrated_sim_demo.launch.py num_drones:=4 team_size:=2 use_hardware:=True
 ```
