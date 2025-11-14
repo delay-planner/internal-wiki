@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Execute Code on Highbay - DSTA Project Internal Wiki</title>
+        <title>Demonstrations for Delay-Kirk with Teams of Drones - DSTA Project Internal Wiki</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/fontawesome.min.css" rel="stylesheet">
         <link href="../css/brands.min.css" rel="stylesheet">
@@ -41,10 +41,10 @@
                                 <a href="../crazyswarm/" class="nav-link">Crazyswarm2 Setup in Highbay</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../demos/" class="nav-link">Demonstrations for Delay-Kirk with Teams of Drones</a>
+                                <a href="./" class="nav-link active" aria-current="page">Demonstrations for Delay-Kirk with Teams of Drones</a>
                             </li>
                             <li class="nav-item">
-                                <a href="./" class="nav-link active" aria-current="page">Execute Code on Highbay</a>
+                                <a href="../execute/" class="nav-link">Execute Code on Highbay</a>
                             </li>
                             <li class="nav-item">
                                 <a href="../podman_stuff/" class="nav-link">Podman Loading</a>
@@ -58,12 +58,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../demos/" class="nav-link">
+                                <a rel="prev" href="../crazyswarm/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../podman_stuff/" class="nav-link">
+                                <a rel="next" href="../execute/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -85,9 +85,21 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#execute-code-on-highbay" class="nav-link">Execute Code on Highbay</a>
+            <li class="nav-item" data-bs-level="1"><a href="#demonstrations-for-delay-kirk-with-teams-of-drones" class="nav-link">Demonstrations for Delay-Kirk with Teams of Drones</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#archive" class="nav-link">Archive</a>
+            <li class="nav-item" data-bs-level="2"><a href="#hardware-demonstration-scenario" class="nav-link">Hardware Demonstration Scenario</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#objectives-of-the-demos" class="nav-link">Objectives of the demos:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#delay-kirk" class="nav-link">Delay Kirk</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#kirk" class="nav-link">Kirk</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -98,61 +110,109 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="execute-code-on-highbay">Execute Code on Highbay</h1>
-<p>This is a series of commands used on the highbay machines.</p>
-<p>One time:</p>
-<pre><code>export PYTHONPATH=/home/mers/Developer/cc-sorb-rev:$PYTHONPATH
+<h1 id="demonstrations-for-delay-kirk-with-teams-of-drones">Demonstrations for Delay-Kirk with Teams of Drones</h1>
+<h2 id="hardware-demonstration-scenario">Hardware Demonstration Scenario</h2>
+<ul>
+<li>Two teams A and B, each with 2 drones.</li>
+<li>Each destination is a communication hotspot i.e starts and ends of each drones are the only places where they can communicate with the command server or other teams.</li>
+<li>Communication with the command serve is reliable but unreliable with other teams</li>
+<li>Everywhere else is a dead-zone.</li>
+<li>A starts first and finishes its mission.</li>
+<li>A then uploads its data to the command server.</li>
+<li>Now here delay comes into play. Since A and B cannot talk directly to each other, the command server has to bridge that gap which introduces the delay.</li>
+<li>B starts <strong>after</strong> A finishes uploading its data to the command server. </li>
+<li>B repeats the same process as A until it finishes and uploads it data to the command server.</li>
+<li>Each demo will be supplemented by a simulation-only video in visual and non-visual environments as backup.</li>
+<li>Current setup is scalable to more teams and more drones within teams and more missions as well.</li>
+</ul>
+<p>Mission A: Time Bound - [lb_A, ub_A], Delay Bound - [dl_A, du_A]</p>
+<p>Upload A: Time Bound - [upl_A, upu_A]</p>
+<p>Mission B: Time Bound - [lb_B, ub_B], Delay Bound - [dl_B, du_B]</p>
+<p>Upload B: Time Bound - [upl_B, upu_B]</p>
+<ul>
+<li>Missions are contingent events i.e they need to be acknowledged.</li>
+<li>Let $d_A \in [dl_A, du_A]$ be the delay after $t_A$ when team B receives the unreliable acknowledgement of team A.</li>
+<li>Let $t_A^B = min(ub_A, t_A + d_A)$ be the time when B receives the unreliable acknowledgement of team A.</li>
+<li>"xxxxxxx" denotes minimum bound of the communication delay i.e dl_A in this context. </li>
+</ul>
+<pre><code>Timelines:   t=0|---------------------------------------------------------------------------------------------------|t=$\infty$ 
+
+A's perspective:                                    
+                  $lb_A$        $t_A$                $ub_A$
+Mission A:         |--------------|--------------------|
+                                  |      $t_A+upl_A$   |                        $t_A+upu_A$
+Upload A:                         |          |--------------------------------------|
+                                  |          
+                                  |          
+B's perspective:                  |              
+                                  | $t_A+dl_A$           $t_A+du_A$                             
+Mission A:                        |xxxxx|----Case 1-----|---Case 2------|
+                                  |    
+Upload A:                         |xxxxx|--|--------------------------------------| 
+                                    $t_A^B + max(0, upl_A-dl_A)$           $t_A^B + max(0, upu_A-dl_A)$
+Mission B:                                 |-----------------------------|---------------------|
+                                     $t_A^B + max(0, upl_A-dl_A) + lb_B$ |    $t_A^B + max(0, upl_A-dl_A) + ub_B$
+Upload B:                                                                |-------------------------|
+                                                                    $t_B + upl_B$             $t_B + upu_B$
 </code></pre>
-<p>Regularly:</p>
-<pre><code>ros2 launch rbmapf_gzsim group_integrated_sim_demo.launch.py num_drones:=4 team_size:=2 use_hardware:=True
-</code></pre>
-<p>Order:</p>
-<pre><code>| 2 | 4 | 3 | 1 |
- ----------------
- | Control Room |
- ----------------
-</code></pre>
-<hr />
-<h2 id="archive">Archive</h2>
-<pre><code>ros2 launch rbmapf_gzsim integrated_sim_demo.launch.py num_drones:=4 backend:=sim use_hardware:=False
-</code></pre>
-<p>Edit the rmpl passed in</p>
-<h3 id="multi-drone-multi-mission-distributed-kirk">Multi-drone, multi-mission distributed Kirk</h3>
-<ol>
-<li>Launch the main crazyswarm launch.py with cflib</li>
-</ol>
-<pre><code>ros2 launch crazyflie launch.py backend:=cflib
-</code></pre>
-<ol>
-<li>Start the middleware server</li>
-</ol>
-<pre><code>cd /home/mers/Developer/kirk_setup
-source venv/bin/activate
-python3 distr.py
-</code></pre>
-<ol>
-<li>Run the crazyflies, wait till they're hovering</li>
-</ol>
-<pre><code>bash execute.sh
-</code></pre>
-<ol>
-<li>Run Kirk</li>
-</ol>
-<pre><code>podman start 3d2642905d0e
-podman exec -it 3d2642905d0e /bin/bash
-bash execute_kirk.sh
-</code></pre>
-<h3 id="run-the-multi-drone-planner">Run the Multi-Drone Planner</h3>
-<pre><code>podman start 3d2642905d0e
-podman exec -it 3d2642905d0e /bin/bash
-kirk run kirk-v2/examples/drone-case/easy.lisp -P scenario1     --driver-command 'curl -X POST -H &quot;Content-Type: application/json&quot; -d &quot;{\&quot;data1\&quot;:\&quot;~A\&quot;, \&quot;data2\&quot;:\&quot;~A\&quot;}&quot; http://localhost:5000/submit' --tolerance 0.5 -p 8000 --verbose &amp;
-</code></pre>
-<pre><code>cd /home/mers/Developer/kirk_setup
-source venv/bin/activate
-python3 main.py
-</code></pre>
-<pre><code>ros2 launch crazyflie_examples launch.py script:=hello_world backend:=cflib
-</code></pre></div>
+<h2 id="objectives-of-the-demos">Objectives of the demos:</h2>
+<ul>
+<li>First Demo: Behavior of Kirk/Delay-Kirk will be similar.</li>
+<li>Second Demo: Delay-Kirk will not crash in scenarios where the communication delay exceeds the mission duration bounds</li>
+<li>Third Demo: Delay-Kirk will be able to finish the overall mission faster due to its ability to compensate for communication delays</li>
+</ul>
+<h2 id="delay-kirk">Delay Kirk</h2>
+<ul>
+<li>First Demo:</li>
+<li>No delay, Expected behavior: A starts and finishes, A communicates that it has finished and then B starts its mission and finishes</li>
+<li>[x] Sim</li>
+<li>[x] Hardware</li>
+<li>Second Demo:</li>
+<li>Non-zero delay,</li>
+<li>Cases are defined based on when B receives information about A's acknowledgement. Lets assume A finishes at $t_A \in [lb_A, ub_A]<ul>
+<li>Case 1:  B receives A's ack within t_A^B \in [t_A + dl_A, ub_A]</li>
+<li>Expected Behavior: B will start its mission at t_A^B</li>
+<li>[x] Sim</li>
+<li>[ ] Hardware</li>
+<li>Case 2:  B receives A's ack within t_A^B \in [ub_A, t_A + du_A]</li>
+<li>Expected Behavior: B will start its mission at ub_A + upl_A</li>
+<li>[x] Sim</li>
+<li>[ ] Hardware</li>
+</ul>
+</li>
+<li>Third Demo:</li>
+<li>Non-zero large delays,</li>
+<li>Follow case 1 from previous demo,</li>
+<li>Expected behavior: Will finish the overall mission faster</li>
+<li>[x] Sim</li>
+<li>[ ] Hardware</li>
+</ul>
+<h2 id="kirk">Kirk</h2>
+<ul>
+<li>First Demo:</li>
+<li>No delay, Expected behavior: Same</li>
+<li>[ ] Sim</li>
+<li>[ ] Hardware</li>
+<li>Second Demo:</li>
+<li>Non-zero delay,</li>
+<li>Cases are defined based on when B receives information about A's acknowledgement. Lets assume A finishes at $t_A \in [lb_A, ub_A]<ul>
+<li>Case 1:  B receives A's ack within t_A^B \in [t_A + dl_A, ub_A]</li>
+<li>Expected Behavior: mission will finish later than delay-kirk</li>
+<li>[ ] Sim</li>
+<li>[ ] Hardware</li>
+<li>Case 2:  B receives A's ack within t_A^B \in [ub_A, t_A + du_A]</li>
+<li>Expected Behavior: planner will crash leading to failure of the overall mission</li>
+<li>[ ] Sim</li>
+<li>[ ] Hardware</li>
+</ul>
+</li>
+<li>Third Demo:</li>
+<li>Non-zero large delays,</li>
+<li>Follow case 1 from previous demo,</li>
+<li>Expected behavior: Mission will finish much later than the corresponding delay-kirk demonstration</li>
+<li>[ ] Sim</li>
+<li>[ ] Hardware</li>
+</ul></div>
             </div>
         </div>
 
